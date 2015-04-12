@@ -25,7 +25,7 @@ Element providing solution to no problem in particular.
 
   <template>
 
-    <link rel="stylesheet" href="seed-element.css">
+    <link rel="stylesheet" href="cet-element.css">
 
     <h1>Hello from seed-element</h1>
     <content></content>
@@ -52,6 +52,59 @@ Element providing solution to no problem in particular.
        * @default false
        */
       fancy: false,
+      created: function() {
+        var cet = {
+            // add header title
+            header: true,
+            title: "Table Title",
+            // add options to header
+            options: true,
+            listOptions: {
+                'graphs': true,
+                'downloads': true,
+                'column_data_sum': true
+            },
+            // tooltips
+            tooltips: true,
+            // download options
+            downloadOptions: {
+                'json': true,
+                'xml': true,
+                'sql': true,
+                'txt': true,
+                'csv': true,
+                'xsl': true,
+                'doc': true,
+                'pdf': true
+            },
+            // search
+            search: true,
+            // limit rows and add pager
+            limitRows: 3,
+            // config type of data service
+            dataOptions: {
+                'localData': false, // mode 1
+                'fireBase': false, // mode 2
+                'apiRest': false, // mode 3
+                'pouchdb': true // mode 4
+            },
+            // localData url
+            localDataUrl: 'localData/tableData.json',
+            // fireBase url
+            fireBaseUrl: '',
+            // pouchDB url
+            pouchDbUrl: 'localData/tableData.json',
+            // apiRest url
+            apiRestGetUrl: '',
+            apiRestPostUrl: '',
+            // display table effects
+            effects: true,
+            // sort table
+            sortable: true,
+            // div container
+            container: document.getElementById('tableContainer')
+        }
+      },
 
       ready: function() {
         // Ready is a lifecycle callback.
