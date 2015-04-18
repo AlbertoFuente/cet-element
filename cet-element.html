@@ -8,27 +8,13 @@
     subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 <link rel="import" href="bower_components/polymer/polymer.html">
-
-<!--
-Element providing solution to no problem in particular.
-
-##### Example
-
-    <seed-element></seed-element>
-
-@element seed-element
-@blurb Element providing solution to no problem in particular.
-@status alpha
-@homepage http://polymerlabs.github.io/seed-element
--->
 <polymer-element name="cet-element" attributes="notitle author">
 
   <template>
 
     <link rel="stylesheet" href="cet-element.css">
 
-    <h1>Hello from seed-element</h1>
-    <content></content>
+    <content id="tableContainer"></content>
 
   </template>
 
@@ -36,7 +22,6 @@ Element providing solution to no problem in particular.
 
     Polymer({
       author: 'Alberto de la Fuente',
-
       created: function() {
         this.cet = {
             // add header title
@@ -69,19 +54,12 @@ Element providing solution to no problem in particular.
             // config type of data service
             dataOptions: {
                 'localData': false, // mode 1
-                'fireBase': false, // mode 2
-                'apiRest': false, // mode 3
-                'pouchdb': true // mode 4
+                'fireBase': false // mode 2
             },
             // localData url
             localDataUrl: 'localData/tableData.json',
             // fireBase url
             fireBaseUrl: '',
-            // pouchDB url
-            pouchDbUrl: 'localData/tableData.json',
-            // apiRest url
-            apiRestGetUrl: '',
-            apiRestPostUrl: '',
             // display table effects
             effects: true,
             // sort table
@@ -90,9 +68,77 @@ Element providing solution to no problem in particular.
             container: document.getElementById('tableContainer')
           }
       },
-
       ready: function() {
+        if (this.cet) {
+            this.createTable(this.cet);
+        }
       },
+      createTable: function(cet) {
+        if (cet) {
+            // Detect type of data service
+            if (cet.dataOptions.localData) {
+                if (cet.localDataUrl !== '') {
+                    this.setServices('localData');
+                } else {
+                    alert(tokenErrorLocalUrl);
+                }
+            } else if (cet.dataOptions.fireBase) {
+                if (cet.fireBaseUrl !== '') {
+                    this.setServices('fireBase');
+                } else {
+                    alert(tokenErrorFirebaseUrl);
+                }
+            } 
+        }
+      },
+      setServices: function(service) {
+            switch (service) {
+                case 'localData':
+                    this.cet.mode = 1;
+                    this.getLocalData(this.cet);
+                    break;
+                case 'fireBase':
+                    this.cet.mode = 2;
+                    this.getfireBaseData(this.cet);
+                    break;
+            }
+      },
+      getMethod: function(url) {
+        return new Promise(function(resolve, reject) {
+            var req = new XMLHttpRequest();
+            req.open('GET', url);
+
+            req.onload = function() {
+                if (req.status === 200) {
+                    resolve(req.response);
+                } else {
+                    reject(Error(req.statusText));
+                }
+            };
+            req.onerror = function() {
+                reject(Error(req.statusText));
+            };
+            req.send();
+        });
+      },
+      getLocalData: function(cet) {
+        if (cet !== undefined) {
+            if (localStorage.getItem("_tableData")) {
+                cet.tableData = JSON.parse(localStorage.getItem("_tableData"));
+                this.tableConstructor(cet);
+            } else {
+                getJsonData(cet.localDataUrl).then(function(response) {
+                    cet.tableData = JSON.parse(response);
+                    this.tableConstructor(cet);
+                }, function(error) {
+                    throw new Error(tokenError + url);
+                });
+            }
+        }
+      },
+      getFireBaseData: function(cet) {
+
+      }
 
     });
 
