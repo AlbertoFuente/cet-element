@@ -20,8 +20,8 @@
 
     <core-toolbar>
     <div flex>{{titleHeader}}</div>
-    <core-icon-button icon="menu" id="trigger" on-tap="{{menuAction}}"></core-icon-button>
-    <core-dropdown relatedTarget="{{$.trigger}}">
+    <core-icon-button icon="menu" id="trigger"></core-icon-button>
+    <core-dropdown relatedTarget="{{$.trigger}}" class="open-below">
       <core-menu>
         <core-item>{{graphs}}</core-item>
         <core-item>{{downloads}}</core-item>
@@ -48,6 +48,10 @@
                 'downloads': true,
                 'column_data_sum': true
             },
+            // options texts
+            graphTitle: 'Config graph options',
+            downloadsTitle: 'Config graph options',
+            sumTitle: 'Config sum options',
             // tooltips
             tooltips: true,
             // download options
@@ -163,20 +167,24 @@
         }
       },
       tableConstructor: function(cet) {
+        // table header
         if (cet.header) {
+            // header title
             if (cet.title !== '') {
                 document.querySelector('cet-element').titleHeader = cet.title;
             }
-            if (cet.options) {º
+            // header menu options
+            if (cet.options) {
+                // header menu list options
                 if (cet.listOptions) {
                     if (cet.listOptions.graphs) {
-                        document.querySelector('cet-element').graphs = 'Config graph options';
+                        document.querySelector('cet-element').graphs = cet.graphTitle;
                     }
                     if (cet.listOptions.downloads) {
-                        document.querySelector('cet-element').downloads = 'Config downloads options';
+                        document.querySelector('cet-element').downloads = cet.downloadsTitle;
                     }
                     if (cet.listOptions.column_data_sum) {
-                        document.querySelector('cet-element').dataSum = 'Config sum options';
+                        document.querySelector('cet-element').dataSum = cet.sumTitle;
                     }
                 }
             } else {
