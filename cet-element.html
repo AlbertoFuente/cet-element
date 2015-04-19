@@ -14,13 +14,11 @@
 
     <link rel="stylesheet" href="cet-element.css">
 
-    <content id="tableContainer"></content>
-
   </template>
 
   <script>
 
-    Polymer({
+    Polymer('cet-element', {
       author: 'Alberto de la Fuente',
       created: function() {
         this.cet = {
@@ -63,9 +61,7 @@
             // display table effects
             effects: true,
             // sort table
-            sortable: true,
-            // div container
-            container: document.getElementById('tableContainer')
+            sortable: true
           }
       },
       ready: function() {
@@ -162,16 +158,12 @@
             if (cet.search) {
 
                 var searchDiv = document.createElement('div');
-                //searchDiv.className = cet.table.assignClasses('searchDiv') + ' searchTable';
 
                 var icon = document.createElement('i');
-                //icon.className = cet.table.assignClasses('searchIcon');
                 var searchInput = document.createElement('input');
                 searchInput.className = 'validate';
                 searchInput.type = 'text';
-                //searchInput.id = 'icon_prefix';
                 var inputLabel = document.createElement('label');
-                //inputLabel.setAttribute('for', 'icon_prefix');
 
                 searchDiv.appendChild(icon);
                 searchDiv.appendChild(searchInput);
@@ -195,7 +187,7 @@
                 optionsContainer.style.display = 'none';
 
                 if (typeof cet.listOptions === 'object') {
-                    this.listTableOptions(cet, optionsContainer, tableHeader);
+                    //this.listTableOptions(cet, optionsContainer, tableHeader);
                 }
 
                 tableHeaderOptions.onclick = function() {
@@ -214,7 +206,7 @@
                             optionsContainer.style.display = 'block';
                         }
                     } else {
-                        tableHeaderOptions.className = 'normalButton ' + cet.table.assignClasses('headerButton');
+                        tableHeaderOptions.className = 'normalButton';
                         optionsContainer.style.display = 'none';
                     }
                 };
@@ -230,8 +222,7 @@
             }
 
             tableHeader.appendChild(tableHeaderTitle);
-            cet.container.appendChild(tableHeader);
-            cet.container.className = 'cet-table-cnt';
+            this.shadowRoots['cet-element'].appendChild(tableHeader);
         }
       }
     });
