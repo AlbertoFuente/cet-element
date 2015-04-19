@@ -22,7 +22,9 @@
   ],
   "dependencies": {
     "polymer": "Polymer/polymer#^0.5.4",
-    "core-toolbar": "Polymer/core-toolbar#^0.5"
+    "core-toolbar": "Polymer/core-toolbar#^0.5",
+    "core-icon-button": "Polymer/core-icon-button#^0.5",
+    "core-dropdown": "Polymer/core-dropdown#^0.5"
   },
   "devDependencies": {
     "web-component-tester": "*"
