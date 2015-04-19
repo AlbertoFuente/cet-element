@@ -9,6 +9,8 @@
 -->
 <link rel="import" href="bower_components/polymer/polymer.html">
 <link rel="import" href="bower_components/core-toolbar/core-toolbar.html">
+<link rel="import" href="bower_components/core-icon-button/core-icon-button.html">
+<link rel="import" href="bower_components/core-dropdown/core-dropdown.html">
 
 <polymer-element name="cet-element" attributes="notitle author">
 
@@ -17,8 +19,15 @@
     <link rel="stylesheet" href="cet-element.css">
 
     <core-toolbar>
-    <core-icon-button icon="menu" on-tap="{{menuAction}}"></core-icon-button>
     <div flex>{{titleHeader}}</div>
+    <core-icon-button icon="menu" id="trigger" on-tap="{{menuAction}}"></core-icon-button>
+    <core-dropdown relatedTarget="{{$.trigger}}">
+      <core-menu>
+        <core-item>{{graphs}}</core-item>
+        <core-item>{{downloads}}</core-item>
+        <core-item>{{dataSum}}</core-item>
+      </core-menu>
+    </core-dropdown>
     </core-toolbar>
 
   </template>
@@ -157,7 +166,21 @@
         if (cet.header) {
             if (cet.title !== '') {
                 document.querySelector('cet-element').titleHeader = cet.title;
-                console.log(document.querySelector('cet-element'));
+            }
+            if (cet.options) {º
+                if (cet.listOptions) {
+                    if (cet.listOptions.graphs) {
+                        document.querySelector('cet-element').graphs = 'Config graph options';
+                    }
+                    if (cet.listOptions.downloads) {
+                        document.querySelector('cet-element').downloads = 'Config downloads options';
+                    }
+                    if (cet.listOptions.column_data_sum) {
+                        document.querySelector('cet-element').dataSum = 'Config sum options';
+                    }
+                }
+            } else {
+                document.querySelector('cet-element').shadowRoot.querySelector('core-icon-button').remove();
             }
         } else {
             document.querySelector('cet-element').shadowRoot.querySelector('core-toolbar').remove();
