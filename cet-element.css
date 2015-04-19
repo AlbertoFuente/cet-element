@@ -18,3 +18,8 @@ polyfill-next-selector { content: ':host > h2'; }
 ::content h2 {
   color: blue;
 }
+core-dropdown {
+    position: absolute;
+    top: 38px;
+    left: 0;
+ }
