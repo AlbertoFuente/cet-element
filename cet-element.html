@@ -53,7 +53,7 @@
             limitRows: 3,
             // config type of data service
             dataOptions: {
-                'localData': false, // mode 1
+                'localData': true, // mode 1
                 'fireBase': false // mode 2
             },
             // localData url
@@ -123,6 +123,7 @@
       },
       getLocalData: function(cet) {
         if (cet !== undefined) {
+            cet.tableData = {};
             if (localStorage.getItem("_tableData")) {
                 cet.tableData = JSON.parse(localStorage.getItem("_tableData"));
                 this.tableConstructor(cet);
@@ -131,15 +132,108 @@
                     cet.tableData = JSON.parse(response);
                     this.tableConstructor(cet);
                 }, function(error) {
-                    throw new Error(tokenError + url);
+                    throw new Error("Problems to find the JSON file in this url: " + url);
                 });
             }
         }
       },
       getFireBaseData: function(cet) {
+        if (cet !== undefined) {
+            cet.tableData = {};
+            var myFirebaseRef = new Firebase(cet.fireBaseUrl);
 
+            myFirebaseRef.on("value", function(response) {
+                cet.tableData = response.val();
+                this.tableConstructor(cet);
+            }, function(errorObject) {
+                throw new Error("The read failed: " + errorObject.code);
+            });
+        }
+      },
+      tableConstructor: function(cet) {
+        if (cet.header) {
+            var tableHeader = document.createElement('div');
+            tableHeader.className = 'tableHeader';
+
+            var tableHeaderTitle = document.createElement('label');
+            tableHeaderTitle.className = 'tableHeaderTitle';
+            tableHeaderTitle.innerHTML = cet.title;
+
+            if (cet.search) {
+
+                var searchDiv = document.createElement('div');
+                //searchDiv.className = cet.table.assignClasses('searchDiv') + ' searchTable';
+
+                var icon = document.createElement('i');
+                //icon.className = cet.table.assignClasses('searchIcon');
+                var searchInput = document.createElement('input');
+                searchInput.className = 'validate';
+                searchInput.type = 'text';
+                //searchInput.id = 'icon_prefix';
+                var inputLabel = document.createElement('label');
+                //inputLabel.setAttribute('for', 'icon_prefix');
+
+                searchDiv.appendChild(icon);
+                searchDiv.appendChild(searchInput);
+                searchDiv.appendChild(inputLabel);
+
+                tableHeader.appendChild(searchDiv);
+
+                searchInput.onchange = function() {
+                    this.tableSearcher(searchInput.value, cet.tableData);
+                }
+            }
+
+            if (cet.options) {
+                var tableHeaderOptions = document.createElement('button');
+                tableHeaderOptions.className = 'normalButton';
+                tableHeader.appendChild(tableHeaderOptions);
+
+                var optionsContainer = document.createElement('div');
+                optionsContainer.className = 'optionsContainer';
+                optionsContainer.id = 'optionsContainer';
+                optionsContainer.style.display = 'none';
+
+                if (typeof cet.listOptions === 'object') {
+                    this.listTableOptions(cet, optionsContainer, tableHeader);
+                }
+
+                tableHeaderOptions.onclick = function() {
+
+                    var elementPosition = tableHeaderOptions.getBoundingClientRect();
+
+                    optionsContainer.style.top = (elementPosition.top + 38) + 'px';
+                    optionsContainer.style.left = (elementPosition.left - 164) + 'px';
+
+                    if (tableHeaderOptions.className === 'normalButton') {
+                        tableHeaderOptions.className = 'clickedButton';
+                        if (document.getElementById('optionsContainer')) {
+                            optionsContainer.style.display = 'block';
+                        } else {
+                            document.body.appendChild(optionsContainer);
+                            optionsContainer.style.display = 'block';
+                        }
+                    } else {
+                        tableHeaderOptions.className = 'normalButton ' + cet.table.assignClasses('headerButton');
+                        optionsContainer.style.display = 'none';
+                    }
+                };
+
+                window.onresize = function() {
+                    var elementPosition = tableHeaderOptions.getBoundingClientRect();
+
+                    if (optionsContainer.style.display === 'block') {
+                        optionsContainer.style.top = (elementPosition.top + 38) + 'px';
+                        optionsContainer.style.left = (elementPosition.left - 164) + 'px';
+                    }
+                };
+            }
+
+            tableHeader.appendChild(tableHeaderTitle);
+            cet.container.appendChild(tableHeader);
+            cet.container.className = 'cet-table-cnt';
+        }
       }
-
     });
 
   </script>
