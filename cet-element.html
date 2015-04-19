@@ -8,11 +8,18 @@
     subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 <link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/core-toolbar/core-toolbar.html">
+
 <polymer-element name="cet-element" attributes="notitle author">
 
   <template>
 
     <link rel="stylesheet" href="cet-element.css">
+
+    <core-toolbar>
+    <core-icon-button icon="menu" on-tap="{{menuAction}}"></core-icon-button>
+    <div flex>{{titleHeader}}</div>
+    </core-toolbar>
 
   </template>
 
@@ -148,81 +155,12 @@
       },
       tableConstructor: function(cet) {
         if (cet.header) {
-            var tableHeader = document.createElement('div');
-            tableHeader.className = 'tableHeader';
-
-            var tableHeaderTitle = document.createElement('label');
-            tableHeaderTitle.className = 'tableHeaderTitle';
-            tableHeaderTitle.innerHTML = cet.title;
-
-            if (cet.search) {
-
-                var searchDiv = document.createElement('div');
-
-                var icon = document.createElement('i');
-                var searchInput = document.createElement('input');
-                searchInput.className = 'validate';
-                searchInput.type = 'text';
-                var inputLabel = document.createElement('label');
-
-                searchDiv.appendChild(icon);
-                searchDiv.appendChild(searchInput);
-                searchDiv.appendChild(inputLabel);
-
-                tableHeader.appendChild(searchDiv);
-
-                searchInput.onchange = function() {
-                    this.tableSearcher(searchInput.value, cet.tableData);
-                }
+            if (cet.title !== '') {
+                document.querySelector('cet-element').titleHeader = cet.title;
+                console.log(document.querySelector('cet-element'));
             }
-
-            if (cet.options) {
-                var tableHeaderOptions = document.createElement('button');
-                tableHeaderOptions.className = 'normalButton';
-                tableHeader.appendChild(tableHeaderOptions);
-
-                var optionsContainer = document.createElement('div');
-                optionsContainer.className = 'optionsContainer';
-                optionsContainer.id = 'optionsContainer';
-                optionsContainer.style.display = 'none';
-
-                if (typeof cet.listOptions === 'object') {
-                    //this.listTableOptions(cet, optionsContainer, tableHeader);
-                }
-
-                tableHeaderOptions.onclick = function() {
-
-                    var elementPosition = tableHeaderOptions.getBoundingClientRect();
-
-                    optionsContainer.style.top = (elementPosition.top + 38) + 'px';
-                    optionsContainer.style.left = (elementPosition.left - 164) + 'px';
-
-                    if (tableHeaderOptions.className === 'normalButton') {
-                        tableHeaderOptions.className = 'clickedButton';
-                        if (document.getElementById('optionsContainer')) {
-                            optionsContainer.style.display = 'block';
-                        } else {
-                            document.body.appendChild(optionsContainer);
-                            optionsContainer.style.display = 'block';
-                        }
-                    } else {
-                        tableHeaderOptions.className = 'normalButton';
-                        optionsContainer.style.display = 'none';
-                    }
-                };
-
-                window.onresize = function() {
-                    var elementPosition = tableHeaderOptions.getBoundingClientRect();
-
-                    if (optionsContainer.style.display === 'block') {
-                        optionsContainer.style.top = (elementPosition.top + 38) + 'px';
-                        optionsContainer.style.left = (elementPosition.left - 164) + 'px';
-                    }
-                };
-            }
-
-            tableHeader.appendChild(tableHeaderTitle);
-            this.shadowRoots['cet-element'].appendChild(tableHeader);
+        } else {
+            document.querySelector('cet-element').shadowRoot.querySelector('core-toolbar').remove();
         }
       }
     });
