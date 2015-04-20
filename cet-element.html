@@ -31,6 +31,18 @@
     </core-dropdown>
     </core-toolbar>
 
+    <div id="tableContainer">
+    <table>
+        <thead>
+            <tr>
+                <template repeat="{{thD in thData}}"><th>{{thD}}</th></template>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    </div>
+
   </template>
 
   <script>
@@ -197,6 +209,15 @@
             }
         } else {
             this.$.tableHeader.remove();
+        }
+        // Construct the table
+        if (cet.tableData !== undefined) {
+            var i = 0,
+                data = [];
+            for(i in cet.tableData[0].head) {
+                data.push(cet.tableData[0].head[i]);
+            }
+            document.querySelector('cet-element').thData = data;
         }
       }
     });
