@@ -18,10 +18,11 @@
 
     <link rel="stylesheet" href="cet-element.css">
 
-    <core-toolbar>
+    <core-toolbar id="tableHeader">
     <div flex>{{titleHeader}}</div>
-    <core-icon-button icon="menu" id="trigger"></core-icon-button>
-    <core-dropdown relatedTarget="{{$.trigger}}" class="open-below">
+    <core-icon-button icon="search" id="searchIcon"></core-icon-button>
+    <core-icon-button icon="menu" id="menuOptions"></core-icon-button>
+    <core-dropdown relatedTarget="{{$.menuOptions}}" class="open-below">
       <core-menu>
         <core-item>{{graphs}}</core-item>
         <core-item>{{downloads}}</core-item>
@@ -188,10 +189,14 @@
                     }
                 }
             } else {
-                document.querySelector('cet-element').shadowRoot.querySelector('core-icon-button').remove();
+                this.$.trigger.remove();
+            }
+            // searcher
+            if (!cet.search) {
+                this.$.searchIcon.remove();
             }
         } else {
-            document.querySelector('cet-element').shadowRoot.querySelector('core-toolbar').remove();
+            this.$.tableHeader.remove();
         }
       }
     });
