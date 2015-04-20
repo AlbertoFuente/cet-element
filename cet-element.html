@@ -35,10 +35,13 @@
     <table>
         <thead>
             <tr>
-                <template repeat="{{thD in thData}}"><th>{{thD}}</th></template>
+                <template repeat="{{thD, i in thData}}"><th class="th{{i}}">{{thD}}</th></template>
             </tr>
         </thead>
         <tbody>
+        <template repeat="{{trD, i in trData}}">
+            <tr class="tr{{i}}"></tr>
+        </template>
         </tbody>
     </table>
     </div>
@@ -213,11 +216,19 @@
         // Construct the table
         if (cet.tableData !== undefined) {
             var i = 0,
-                data = [];
+                j = 0,
+                headData = [],
+                bodyData = [];
+            // table head data
             for(i in cet.tableData[0].head) {
-                data.push(cet.tableData[0].head[i]);
+                headData.push(cet.tableData[0].head[i]);
             }
-            document.querySelector('cet-element').thData = data;
+            document.querySelector('cet-element').thData = headData;
+            // table body data
+            for (j in cet.tableData[0].body) {
+                bodyData.push(cet.tableData[0].body[j]);
+            }
+            document.querySelector('cet-element').trData = bodyData;
         }
       }
     });
