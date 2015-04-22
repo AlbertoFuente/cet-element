@@ -35,12 +35,14 @@
     <table>
         <thead>
             <tr>
-                <template repeat="{{thD, i in thData}}"><th class="th{{i}}">{{thD}}</th></template>
+                <th template repeat="{{thD, i in thData}}" class="th{{i}}">{{thD}}</th>
             </tr>
         </thead>
         <tbody>
         <template repeat="{{trD, i in trData}}">
-            <tr class="tr{{i}}"></tr>
+            <tr class="{{trKeys(i)}}">
+                <td template repeat="{{td in trD | keys}}" class="{{td}}">{{trD[td].data}}</td>
+            </tr>
         </template>
         </tbody>
     </table>
@@ -182,6 +184,22 @@
             });
         }
       },
+      keys: function(element) {
+        return Object.keys(element);
+      },
+      trKeys: function(element) {
+        if (element !== undefined) {
+            var num = 'tr' + (element + 1);
+            return num;
+        }
+      },
+      tdKeys: function(element) {
+        if (element !== undefined) {
+            element++;
+            var num = 'td' + (element);
+            return num;
+        }
+      }, 
       tableConstructor: function(cet) {
         // table header
         if (cet.header) {
