@@ -192,6 +192,13 @@
             });
         }
       },
+      setFirebaseData: function(cet) {
+        if (cet.fireBaseUrl !== '') {
+            var fireUrl = new Firebase(cet.fireBaseUrl);
+
+            fireUrl.set(cet.tableData);
+        }
+      },
       keys: function(element) {
         return Object.keys(element);
       },
