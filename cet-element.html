@@ -220,9 +220,6 @@
         }
       }, 
       sortTable: function(ev, detail, sender) {
-        console.log(ev);
-        console.log(detail);
-        console.log(sender);
         // TODO: finish sortable function
       },
       tableConstructor: function(cet) {
@@ -268,7 +265,7 @@
             }
             document.querySelector('cet-element').thData = headData;
             // tHead sortable
-            if (this.cet.sortable) {
+            if (cet.sortable) {
                 document.querySelector('cet-element').tdSortable = true;
             }
             // table body data
