@@ -51,7 +51,7 @@
   </template>
 
   <script>
-
+  (function() {
     Polymer('cet-element', {
       author: 'Alberto de la Fuente',
       created: function() {
@@ -171,6 +171,14 @@
             }
         }
       },
+      setLocalData: function(cet) {
+        // save it in localStorage
+        if (window.localStorage) {
+            localStorage.setItem('_tableData', JSON.stringify(cet.tableData));
+        } else {
+            throw new Error("Your browser don't support LocalStorage!");
+        }
+      },
       getFireBaseData: function(cet) {
         if (cet !== undefined) {
             cet.tableData = {};
@@ -249,7 +257,7 @@
         }
       }
     });
-
+  }());
   </script>
 
 </polymer-element>
