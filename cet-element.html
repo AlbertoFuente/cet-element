@@ -35,7 +35,12 @@
     <table>
         <thead>
             <tr>
-                <th template repeat="{{thD, i in thData}}" class="th{{i}}">{{thD}}</th>
+                <th template repeat="{{thD, i in thData}}" class="th{{i}}">{{thD}}
+                    <template if="{{tdSortable}}">
+                        <core-icon-button icon="unfold-more" class="unfoldIcon" on-click="{{sortTable}}">
+                        </core-icon-button>
+                    </template>
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -214,6 +219,12 @@
             return num;
         }
       }, 
+      sortTable: function(ev, detail, sender) {
+        console.log(ev);
+        console.log(detail);
+        console.log(sender);
+        // TODO: finish sortable function
+      },
       tableConstructor: function(cet) {
         // table header
         if (cet.header) {
@@ -256,6 +267,10 @@
                 headData.push(cet.tableData[0].head[i]);
             }
             document.querySelector('cet-element').thData = headData;
+            // tHead sortable
+            if (this.cet.sortable) {
+                document.querySelector('cet-element').tdSortable = true;
+            }
             // table body data
             for (j in cet.tableData[0].body) {
                 bodyData.push(cet.tableData[0].body[j]);
