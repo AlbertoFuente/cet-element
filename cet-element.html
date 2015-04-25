@@ -37,13 +37,13 @@
             <tr>
                 <th template repeat="{{thD, i in thData}}" class="th{{i}}">{{thD}}
                     <template if="{{tdSortable}}">
-                        <core-icon-button icon="expand-more" id="sortIcon" on-click="{{sortTable}}">
+                        <core-icon-button icon="expand-more" class="sortIcon{{i+1}}" on-click="{{sortTable}}">
                         </core-icon-button>
                     </template>
                 </th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="cetTbody">
         <template repeat="{{trD, i in trData}}">
             <tr class="{{trKeys(i)}}">
                 <td template repeat="{{td in trD | keys}}" class="{{td}}">{{trD[td].data}}</td>
@@ -220,21 +220,39 @@
         }
       }, 
       sortTable: function(ev, detail, sender) {
-        var self = this;
+        var self = this,
+            trs = this.$.cetTbody.querySelectorAll('tr'),
+            tds = this.$.cetTbody.querySelectorAll('td'),
+            senderClass = sender.className,
+            num = senderClass.slice(-1),
+            sTds = [],
+            selectedTds = function() {
+                var i = 0;
+                for (i; i < tds.length; i++) {
+                    if (tds[i].className.slice(-1) === num) {
+                        sTds.push(tds[i]);
+                    }
+                }
+            },
+            changeIconClass = function(iconClass) {
+                var i = 0,
+                    icons = self.$.cetThead.querySelectorAll('core-icon-button');
+                for (i; i < icons.length; i++) {
+                    icons[i].icon = iconClass;
+                }
+            };
 
-        function changeIconClass(iconClass) {
-            var i = 0,
-                icons = self.$.cetThead.querySelectorAll('core-icon-button');
-            for (i; i < icons.length; i++) {
-                icons[i].icon = iconClass;
+        selectedTds();
+
+        (sender.icon === 'expand-more') ? changeIconClass('expand-less') : changeIconClass('expand-more');
+
+        sTds.map(function(t) {
+            if (sender.icon === 'expand-more') {
+                sTds.sort();
+            } else {
+                sTds.reverse();
             }
-        }
-
-        if (sender.icon === 'expand-more') {
-            changeIconClass('expand-less');
-        } else {
-            changeIconClass('expand-more');
-        }
+        });
       },
       tableConstructor: function(cet) {
         // table header
