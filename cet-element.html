@@ -225,34 +225,37 @@
             tds = this.$.cetTbody.querySelectorAll('td'),
             senderClass = sender.className,
             num = senderClass.slice(-1),
-            sTds = [],
-            selectedTds = function() {
-                var i = 0;
-                for (i; i < tds.length; i++) {
-                    if (tds[i].className.slice(-1) === num) {
-                        sTds.push(tds[i]);
-                    }
-                }
-            },
             changeIconClass = function(iconClass) {
                 var i = 0,
                     icons = self.$.cetThead.querySelectorAll('core-icon-button');
                 for (i; i < icons.length; i++) {
                     icons[i].icon = iconClass;
                 }
+            },
+            selectedTds = function() {
+                var i = 0,
+                    j = 0,
+                    tdsArr = [],
+                    list = [];
+                for (i; i < tds.length; i++) {
+                    if (tds[i].className.slice(-1) === num) {
+                        tdsArr.push(tds[i].innerHTML);
+                    }
+                }
+                if (sender.icon === 'expand-more') {
+                    tdsArr.sort(function(a,b) { return a - b });
+                } else {
+                    tdsArr.reverse(function(a,b) { return a + b });
+                }
             };
 
+        if (sender.icon === 'expand-more') {
+            changeIconClass('expand-less');
+        } else {
+            changeIconClass('expand-more');
+        } 
+
         selectedTds();
-
-        (sender.icon === 'expand-more') ? changeIconClass('expand-less') : changeIconClass('expand-more');
-
-        sTds.map(function(t) {
-            if (sender.icon === 'expand-more') {
-                sTds.sort();
-            } else {
-                sTds.reverse();
-            }
-        });
       },
       tableConstructor: function(cet) {
         // table header
