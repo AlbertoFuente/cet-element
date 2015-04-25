@@ -32,12 +32,12 @@
     </core-toolbar>
 
     <div id="tableContainer">
-    <table>
-        <thead>
+    <table id="cetTable">
+        <thead id="cetThead">
             <tr>
                 <th template repeat="{{thD, i in thData}}" class="th{{i}}">{{thD}}
                     <template if="{{tdSortable}}">
-                        <core-icon-button icon="unfold-more" class="unfoldIcon" on-click="{{sortTable}}">
+                        <core-icon-button icon="expand-more" id="sortIcon" on-click="{{sortTable}}">
                         </core-icon-button>
                     </template>
                 </th>
@@ -119,13 +119,13 @@
                 if (cet.localDataUrl !== '') {
                     this.setServices('localData');
                 } else {
-                    alert(tokenErrorLocalUrl);
+                    alert('You must add localDataUrl in config.js');
                 }
             } else if (cet.dataOptions.fireBase) {
                 if (cet.fireBaseUrl !== '') {
                     this.setServices('fireBase');
                 } else {
-                    alert(tokenErrorFirebaseUrl);
+                    alert('You must add fireBaseUrl in config.js');
                 }
             } 
         }
@@ -220,7 +220,21 @@
         }
       }, 
       sortTable: function(ev, detail, sender) {
-        // TODO: finish sortable function
+        var self = this;
+
+        function changeIconClass(iconClass) {
+            var i = 0,
+                icons = self.$.cetThead.querySelectorAll('core-icon-button');
+            for (i; i < icons.length; i++) {
+                icons[i].icon = iconClass;
+            }
+        }
+
+        if (sender.icon === 'expand-more') {
+            changeIconClass('expand-less');
+        } else {
+            changeIconClass('expand-more');
+        }
       },
       tableConstructor: function(cet) {
         // table header
@@ -278,5 +292,4 @@
     });
   }());
   </script>
-
 </polymer-element>
