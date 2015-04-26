@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/AlbertoFuente/cet-element",
   "dependencies": {
-    "chai": "^2.2.0",
+    "chai": "^2.3.0",
     "gulp": "^3.8.11",
     "gulp-karma": "0.0.4",
     "gulp-watch": "^4.2.4",
