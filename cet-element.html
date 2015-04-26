@@ -236,17 +236,33 @@
                 var i = 0,
                     j = 0,
                     tdsArr = [],
-                    list = [];
+                    list = [],
+                    isNum = null,
+                    numData = null;
+                // Add isNumeric() function to String class inside his prototype 
+                /*if (!String.prototype.isNumeric) {
+                    String.prototype.isNumeric = function() {
+                        return !isNaN(parseFloat(this));
+                    }
+                }*/
                 for (i; i < tds.length; i++) {
                     if (tds[i].className.slice(-1) === num) {
                         tdsArr.push(tds[i].innerHTML);
                     }
                 }
+                // check if the column have numeric data or not
+                /*isNum = tdsArr.map(function(col) {
+                    return col.isNumeric();
+                });
+                isNum.map(function(res) {
+                    (res) ? numData = res : numData = res;
+                });*/
                 if (sender.icon === 'expand-more') {
-                    tdsArr.sort(function(a,b) { return a - b });
+                    tdsArr.sort(function(a,b) { return a - b; });
                 } else {
-                    tdsArr.reverse(function(a,b) { return a + b });
+                    tdsArr.sort(function(a,b) { return b - a; });
                 }
+                console.log(tdsArr);
             };
 
         if (sender.icon === 'expand-more') {
