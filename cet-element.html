@@ -288,27 +288,30 @@
         } else {
             this.$.tableHeader.remove();
         }
-        // Construct the table
-        if (cet.tableData !== undefined) {
-            var i = 0,
-                j = 0,
-                headData = [],
-                bodyData = [];
-            // table head data
-            for(i in cet.tableData[0].head) {
-                headData.push(cet.tableData[0].head[i]);
+        this.tableBody = function(tableData) {
+            // Construct the table
+            if (tableData !== undefined) {
+                var i = 0,
+                    j = 0,
+                    headData = [],
+                    bodyData = [];
+                // table head data
+                for(i in tableData[0].head) {
+                    headData.push(tableData[0].head[i]);
+                }
+                document.querySelector('cet-element').thData = headData;
+                // tHead sortable
+                if (cet.sortable) {
+                    document.querySelector('cet-element').tdSortable = true;
+                }
+                // table body data
+                for (j in tableData[0].body) {
+                    bodyData.push(tableData[0].body[j]);
+                }
+                document.querySelector('cet-element').trData = bodyData;
             }
-            document.querySelector('cet-element').thData = headData;
-            // tHead sortable
-            if (cet.sortable) {
-                document.querySelector('cet-element').tdSortable = true;
-            }
-            // table body data
-            for (j in cet.tableData[0].body) {
-                bodyData.push(cet.tableData[0].body[j]);
-            }
-            document.querySelector('cet-element').trData = bodyData;
-        }
+        } 
+        this.tableBody(cet.tableData);
       }
     });
   }());
