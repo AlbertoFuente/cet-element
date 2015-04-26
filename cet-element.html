@@ -231,47 +231,64 @@
                 for (i; i < icons.length; i++) {
                     icons[i].icon = iconClass;
                 }
-            },
-            selectedTds = function() {
-                var i = 0,
-                    j = 0,
-                    tdsArr = [],
-                    list = [],
-                    isNum = null,
-                    numData = null;
-                // Add isNumeric() function to String class inside his prototype 
-                if (!String.prototype.isNumeric) {
-                    String.prototype.isNumeric = function() {
-                        return !isNaN(parseFloat(this));
-                    }
-                }
-                for (i; i < tds.length; i++) {
-                    if (tds[i].className.slice(-1) === num) {
-                        tdsArr.push(tds[i].innerHTML);
-                    }
-                }
-                // check if the column have numeric data or not
-                isNum = tdsArr.map(function(col) {
-                    return col.isNumeric();
-                });
-                isNum.map(function(res) {
-                    (res) ? numData = res : numData = res;
-                });
-                if (numData) {
-                    if (sender.icon === 'expand-more') {
-                        tdsArr.sort(function(a,b) { return a - b; });
-                    } else {
-                        tdsArr.sort(function(a,b) { return b - a; });
-                    }
-                } else {
-                    if (sender.icon === 'expand-more') {
-                        tdsArr.sort();
-                    } else {
-                        tdsArr.reverse();
-                    }
-                }
-                console.log(tdsArr);
             };
+        this.selectedTds = function() {
+            var i = 0,
+                j = 0,
+                tdsArr = [],
+                list = [],
+                isNum = null,
+                numData = null,
+                self = this,
+                newBody = {};
+            // Add isNumeric() function to String class inside his prototype 
+            if (!String.prototype.isNumeric) {
+                String.prototype.isNumeric = function() {
+                    return !isNaN(parseFloat(this));
+                }
+            }
+            for (i; i < tds.length; i++) {
+                if (tds[i].className.slice(-1) === num) {
+                    tdsArr.push(tds[i].innerHTML);
+                }
+            }
+            // check if the column have numeric data or not
+            isNum = tdsArr.map(function(col) {
+                return col.isNumeric();
+            });
+            isNum.map(function(res) {
+                (res) ? numData = res : numData = res;
+            });
+            if (numData) {
+                if (sender.icon === 'expand-more') {
+                    tdsArr.sort(function(a,b) { return a - b; });
+                } else {
+                    tdsArr.sort(function(a,b) { return b - a; });
+                }
+            } else {
+                if (sender.icon === 'expand-more') {
+                    tdsArr.sort();
+                } else {
+                    tdsArr.reverse();
+                }
+            }
+            // empty table body
+            newBody = Object.call(this, self.cet.tableData[0].body);
+            self.cet.tableData[0].body = {};
+            // insert new sort table body (tr's)
+            tdsArr.map(function(d) {
+                var key = null,
+                    k = null;
+                for (key in newBody) {
+                    for (k in newBody[key]) {
+                        if (d === newBody[key][k].data) {
+                            self.cet.tableData[0].body[key] = newBody[key];
+                        }
+                    }
+                }
+            });
+            self.tableBody(self.cet.tableData);
+        };
 
         if (sender.icon === 'expand-more') {
             changeIconClass('expand-less');
@@ -279,7 +296,7 @@
             changeIconClass('expand-more');
         } 
 
-        selectedTds();
+        this.selectedTds();
       },
       tableConstructor: function(cet) {
         // table header
