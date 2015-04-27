@@ -353,6 +353,34 @@
             }
         } 
         this.tableBody(cet.tableData);
+
+        if (this.cet.limitRows > 0) {
+            this.tablePager(this.cet.limitRows);
+        }
+      }, 
+      tablePager: function (limit) {
+        // calc num of panels
+        var calcPages = function(num) { return Math.round(num / limit) },
+            count = 0,
+            pages = null,
+            buttonPanel = {},
+            newBody = {};
+        // check if is pair
+        if (!Number.prototype.isPair) {
+            Number.prototype.isPair = function(limit) {
+                return this % limit;
+            };
+        }
+        // set pages
+        for (key in this.cet.tableData[0].body) {
+            var num = key.slice(-1),
+                numPair = parseFloat(num).isPair(limit);
+            if (numPair === 1) count++;
+            newBody[key] = {
+                page : count,
+                trClass : key
+            };
+        }
       }
     });
   }());
