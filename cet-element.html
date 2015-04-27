@@ -51,6 +51,10 @@
         </template>
         </tbody>
     </table>
+    <div id="buttonsPanel" if="{{showButtons}}">
+        <core-icon-button icon="arrow-back" class="prevButton" on-click="{{prevButton}}">
+        <core-icon-button icon="arrow-forward" class="nextButton" on-click="{{nextButton}}">
+    </div>
     </div>
 
   </template>
@@ -356,6 +360,9 @@
 
         if (this.cet.limitRows > 0) {
             this.tablePager(this.cet.limitRows);
+            document.querySelector('cet-element').showButtons = true;
+        } else {
+            document.querySelector('cet-element').showButtons = false;
         }
       }, 
       tablePager: function (limit) {
@@ -363,6 +370,7 @@
         var calcPages = function(num) { return Math.round(num / limit) },
             count = 0,
             pages = null,
+            numPages = 0,
             buttonPanel = {},
             newBody = {};
         // check if is pair
@@ -373,6 +381,7 @@
         }
         // set pages
         for (key in this.cet.tableData[0].body) {
+            numPages++;
             var num = key.slice(-1),
                 numPair = parseFloat(num).isPair(limit);
             if (numPair === 1) count++;
@@ -381,6 +390,9 @@
                 trClass : key
             };
         }
+        // number of pages
+        pages = calcPages(numPages);
+        // set buttons
       }
     });
   }());
