@@ -381,7 +381,7 @@
             buttonPanel = {},
             newBodyClasses = {},
             newBody = {},
-            setPagerTable = function(newBody, pager, printBody, numPages) {
+            setPagerTable = function(newBody, pager, printBody) {
                 for (key in newBody) {
                     if (key === pager[key].trClass) {
                         printBody[key] = newBody[key];
@@ -411,7 +411,7 @@
         // empty table body
         newBody = Object.call(this, this.cet.tableData[0].body);
         this.cet.tableData[0].body = {};
-        setPagerTable(newBody, newBodyClasses, this.cet.tableData[0].body, pages);
+        setPagerTable(newBody, newBodyClasses, this.cet.tableData[0].body);
       }
     });
   }());
