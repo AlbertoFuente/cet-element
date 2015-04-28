@@ -261,7 +261,7 @@
             isNum = tdsArr.map(function(col) {
                 return col.isNumeric();
             });
-            
+
             for (t; t < isNum.length; t++) {
                 if (isNum[t]) {
                     numData = isNum[t]; 
@@ -379,7 +379,16 @@
             pages = null,
             numPages = 0,
             buttonPanel = {},
-            newBody = {};
+            newBodyClasses = {},
+            newBody = {},
+            setPagerTable = function(newBody, pager, printBody, numPages) {
+                for (key in newBody) {
+                    if (key === pager[key].trClass) {
+                        printBody[key] = newBody[key];
+                        printBody[key].page = pager[key].page;
+                    }
+                }
+            };
         // check if is pair
         if (!Number.prototype.isPair) {
             Number.prototype.isPair = function(limit) {
@@ -392,14 +401,17 @@
             var num = key.slice(-1),
                 numPair = parseFloat(num).isPair(limit);
             if (numPair === 1) count++;
-            newBody[key] = {
+            newBodyClasses[key] = {
                 page : count,
                 trClass : key
             };
         }
         // number of pages
         pages = calcPages(numPages);
-        // set buttons
+        // empty table body
+        newBody = Object.call(this, this.cet.tableData[0].body);
+        this.cet.tableData[0].body = {};
+        setPagerTable(newBody, newBodyClasses, this.cet.tableData[0].body, pages);
       }
     });
   }());
