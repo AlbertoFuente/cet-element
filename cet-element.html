@@ -239,6 +239,7 @@
         this.selectedTds = function() {
             var i = 0,
                 j = 0,
+                t = 0,
                 tdsArr = [],
                 list = [],
                 isNum = null,
@@ -260,9 +261,15 @@
             isNum = tdsArr.map(function(col) {
                 return col.isNumeric();
             });
-            isNum.map(function(res) {
-                (res) ? numData = res : numData = res;
-            });
+            
+            for (t; t < isNum.length; t++) {
+                if (isNum[t]) {
+                    numData = isNum[t]; 
+                } else {
+                    numData = isNum[t];
+                    break;
+                } 
+            }
             if (numData) {
                 if (sender.icon === 'expand-more') {
                     tdsArr.sort(function(a,b) { return a - b; });
