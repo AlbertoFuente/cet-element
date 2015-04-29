@@ -52,8 +52,8 @@
         </tbody>
     </table>
     <div id="buttonsPanel" if="{{showButtons}}">
-        <core-icon-button icon="arrow-back" class="prevButton" on-click="{{pagerEvents}}"></core-icon-button>
-        <core-icon-button icon="arrow-forward" class="nextButton" on-click="{{pagerEvents}}"></core-icon-button>
+        <core-icon-button icon="arrow-back" class="prev" on-click="{{pagerEvents}}"></core-icon-button>
+        <core-icon-button icon="arrow-forward" class="next" on-click="{{pagerEvents}}"></core-icon-button>
     </div>
     </div>
 
@@ -382,25 +382,27 @@
             newBodyClasses = {},
             newBody = {};
         this.printNewBody = function(body, page) {
-                var key = null,
-                    bodyData = [];
-                for(key in body) {
-                    if (body[key].page === page) {
-                        bodyData.push(body[key]);
-                    }
+            var key = null,
+                bodyData = [];
+            for(key in body) {
+                if (body[key].page === page) {
+                    bodyData.push(body[key]);
                 }
-                document.querySelector('cet-element').trData = bodyData;
-            };
+            }
+            document.querySelector('cet-element').trData = bodyData;
+        };
         this.setPagerTable = function(newBody, pager, printBody) {
-            var self = this;
-                for (key in newBody) {
-                    if (key === pager[key].trClass) {
-                        printBody[key] = newBody[key];
-                        printBody[key].page = pager[key].page;
-                    }
+            var self = this,
+                body = {};
+            for (key in newBody) {
+                if (key === pager[key].trClass) {
+                    printBody[key] = newBody[key];
+                    printBody[key].page = pager[key].page;
                 }
-                self.printNewBody(printBody, 1);
-            };
+            }
+            body = Object.call(this, printBody);
+            self.printNewBody(body, 1);
+        };
         // check if is pair
         if (!Number.prototype.isPair) {
             Number.prototype.isPair = function(limit) {
@@ -425,8 +427,17 @@
         this.cet.tableData[0].body = {};
         this.setPagerTable(newBody, newBodyClasses, this.cet.tableData[0].body);
         // buttons events
-        this.pagerEvents = function() {
-            
+        this.pagerEvents = function(ev) {
+            var tableBody = this.$.cetTbody,
+                buttonClass = ev.currentTarget.className,
+                cetBody = this.cet.tableData[0].body,
+                page = 0;
+
+            if (buttonClass === 'next') {
+                // TODO: finish next button action
+            } else {
+                // TODO: finish prev button action
+            }
         }
       }
     });
