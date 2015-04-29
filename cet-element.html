@@ -381,6 +381,16 @@
             buttonPanel = {},
             newBodyClasses = {},
             newBody = {},
+            printNewBody = function(body, page) {
+                var key = null,
+                bodyData = [];
+                for(key in body) {
+                    if (body[key].page === page) {
+                        bodyData.push(body[key]);
+                    }
+                }
+                document.querySelector('cet-element').trData = bodyData;
+            },
             setPagerTable = function(newBody, pager, printBody) {
                 for (key in newBody) {
                     if (key === pager[key].trClass) {
@@ -388,6 +398,7 @@
                         printBody[key].page = pager[key].page;
                     }
                 }
+                printNewBody(printBody, 1);
             };
         // check if is pair
         if (!Number.prototype.isPair) {
