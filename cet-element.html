@@ -52,8 +52,8 @@
         </tbody>
     </table>
     <div id="buttonsPanel" if="{{showButtons}}">
-        <core-icon-button icon="arrow-back" class="prevButton" on-click="{{prevButton}}">
-        <core-icon-button icon="arrow-forward" class="nextButton" on-click="{{nextButton}}">
+        <core-icon-button icon="arrow-back" class="prevButton" on-click="{{pagerEvents}}"></core-icon-button>
+        <core-icon-button icon="arrow-forward" class="nextButton" on-click="{{pagerEvents}}"></core-icon-button>
     </div>
     </div>
 
@@ -380,25 +380,26 @@
             numPages = 0,
             buttonPanel = {},
             newBodyClasses = {},
-            newBody = {},
-            printNewBody = function(body, page) {
+            newBody = {};
+        this.printNewBody = function(body, page) {
                 var key = null,
-                bodyData = [];
+                    bodyData = [];
                 for(key in body) {
                     if (body[key].page === page) {
                         bodyData.push(body[key]);
                     }
                 }
                 document.querySelector('cet-element').trData = bodyData;
-            },
-            setPagerTable = function(newBody, pager, printBody) {
+            };
+        this.setPagerTable = function(newBody, pager, printBody) {
+            var self = this;
                 for (key in newBody) {
                     if (key === pager[key].trClass) {
                         printBody[key] = newBody[key];
                         printBody[key].page = pager[key].page;
                     }
                 }
-                printNewBody(printBody, 1);
+                self.printNewBody(printBody, 1);
             };
         // check if is pair
         if (!Number.prototype.isPair) {
@@ -422,7 +423,11 @@
         // empty table body
         newBody = Object.call(this, this.cet.tableData[0].body);
         this.cet.tableData[0].body = {};
-        setPagerTable(newBody, newBodyClasses, this.cet.tableData[0].body);
+        this.setPagerTable(newBody, newBodyClasses, this.cet.tableData[0].body);
+        // buttons events
+        this.pagerEvents = function() {
+            
+        }
       }
     });
   }());
