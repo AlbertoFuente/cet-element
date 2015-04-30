@@ -131,7 +131,7 @@
                 } else {
                     alert('You must add fireBaseUrl in config.js');
                 }
-            } 
+            }
         }
       },
       setServices: function(service) {
@@ -222,7 +222,7 @@
             var num = 'td' + (element + 1);
             return num;
         }
-      }, 
+      },
       sortTable: function(ev, detail, sender) {
         var self = this,
             trs = this.$.cetTbody.querySelectorAll('tr'),
@@ -246,7 +246,7 @@
                 numData = null,
                 self = this,
                 newBody = {};
-            // Add isNumeric() function to String class inside his prototype 
+            // Add isNumeric() function to String class inside his prototype
             if (!String.prototype.isNumeric) {
                 String.prototype.isNumeric = function() {
                     return !isNaN(parseFloat(this));
@@ -264,11 +264,11 @@
 
             for (t; t < isNum.length; t++) {
                 if (isNum[t]) {
-                    numData = isNum[t]; 
+                    numData = isNum[t];
                 } else {
                     numData = isNum[t];
                     break;
-                } 
+                }
             }
             if (numData) {
                 if (sender.icon === 'expand-more') {
@@ -305,7 +305,7 @@
             changeIconClass('expand-less');
         } else {
             changeIconClass('expand-more');
-        } 
+        }
 
         this.selectedTds();
       },
@@ -362,7 +362,7 @@
                 }
                 document.querySelector('cet-element').trData = bodyData;
             }
-        } 
+        }
         this.tableBody(cet.tableData);
 
         if (this.cet.limitRows > 0) {
@@ -371,7 +371,7 @@
         } else {
             document.querySelector('cet-element').showButtons = false;
         }
-      }, 
+      },
       tablePager: function (limit) {
         // calc num of panels
         var calcPages = function(num) { return Math.round(num / limit) },
@@ -432,11 +432,52 @@
                 buttonClass = ev.currentTarget.className,
                 cetBody = this.cet.tableData[0].body,
                 page = 0;
+            if (!Object.prototype.findNextPage) {
+                Object.prototype.findNextPage = function (nodeClass, self) {
+                    var nextPage = this[nodeClass].page + 1,
+                        newBody = {},
+                        that = this;
+                    Object.keys(that).map(function(value, index) {
+                        if (that[value].page === nextPage) {
+                            newBody[value] = that[value];
+                        }
+                    });
+                    self.printNewBody(newBody, nextPage);
+                }
+            }
+
+            if (!Object.prototype.findPrevPage) {
+                Object.prototype.findPrevPage = function (nodeClass, self) {
+                    var nextPage = (nodeClass === 1) ? this[nodeClass].page : this[nodeClass].page - 1,
+                        newBody = {},
+                        that = this;
+                    Object.keys(that).map(function(value, index) {
+                        if (that[value].page === nextPage) {
+                            newBody[value] = that[value];
+                        }
+                    });
+                    self.printNewBody(newBody, nextPage);
+                }
+            }
+
+            function lastTrClass() {
+                var bodyNodes = tableBody.childNodes,
+                    key = null,
+                    nodeClass = null;
+                for (key in bodyNodes) {
+                    if (bodyNodes[key].tagName === 'TR') {
+                        nodeClass = bodyNodes[key].className;
+                    }
+                }
+                return nodeClass;
+            }
 
             if (buttonClass === 'next') {
-                // TODO: finish next button action
+                var nnc = lastTrClass();
+                cetBody.findNextPage(nnc, this);
             } else {
-                // TODO: finish prev button action
+                var npc = lastTrClass();
+                cetBody.findPrevPage(npc, this);
             }
         }
       }
