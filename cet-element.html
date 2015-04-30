@@ -44,11 +44,9 @@
             </tr>
         </thead>
         <tbody id="cetTbody">
-        <template repeat="{{trD, i in trData}}">
-            <tr class="{{trKeys(i)}}">
+            <tr template repeat="{{trD, i in trData}}" class="{{trKeys[i]}}">
                 <td template repeat="{{td in trD | keys}}" class="{{td}}">{{trD[td].data}}</td>
             </tr>
-        </template>
         </tbody>
     </table>
     <div id="buttonsPanel" if="{{showButtons}}">
@@ -346,7 +344,7 @@
                 var i = 0,
                     j = 0,
                     headData = [],
-                    bodyData = [];
+                    bodyData = {};
                 // table head data
                 for(i in tableData[0].head) {
                     headData.push(tableData[0].head[i]);
@@ -358,7 +356,7 @@
                 }
                 // table body data
                 for (j in tableData[0].body) {
-                    bodyData.push(tableData[0].body[j]);
+                    bodyData[j] = tableData[0].body[j];
                 }
                 document.querySelector('cet-element').trData = bodyData;
             }
@@ -383,10 +381,10 @@
             newBody = {};
         this.printNewBody = function(body, page) {
             var key = null,
-                bodyData = [];
+                bodyData = {};
             for(key in body) {
                 if (body[key].page === page) {
-                    bodyData.push(body[key]);
+                    bodyData[key] = body[key];
                 }
             }
             document.querySelector('cet-element').trData = bodyData;
@@ -473,11 +471,17 @@
             }
 
             if (buttonClass === 'next') {
-                var nnc = lastTrClass();
-                cetBody.findNextPage(nnc, this);
+                try {
+                    var nnc = lastTrClass();
+                } finally {
+                    cetBody.findNextPage(nnc, this);
+                }
             } else {
-                var npc = lastTrClass();
-                cetBody.findPrevPage(npc, this);
+                try {
+                    var npc = lastTrClass();
+                } finally {
+                    cetBody.findPrevPage(npc, this);
+                }
             }
         }
       }
