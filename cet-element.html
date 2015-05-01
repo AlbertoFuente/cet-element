@@ -35,8 +35,8 @@
             </tr>
         </thead>
         <tbody id="cetTbody">
-            <tr template repeat="{{trD, index in trData | keys}}" class="{{trD}}">
-                <td template repeat="{{td in trD | keys}}" class="{{td}}">{{trD[td].data}}</td>
+            <tr template repeat="{{trD in trData | keys}}" class="{{trD}}">
+                <td template repeat="{{td in trData[trD] | keys}}" class="{{td}}">{{trData[trD][td].data}}</td>
             </tr>
         </tbody>
     </table>
@@ -198,19 +198,9 @@
         }
       },
       keys: function(element) {
-        return Object.keys(element);
-      },
-      trKeys: function(element) {
-        if (element !== undefined) {
-            var num = 'tr' + (element + 1);
-            return num;
-        }
-      },
-      tdKeys: function(element) {
-        if (element !== undefined) {
-            var num = 'td' + (element + 1);
-            return num;
-        }
+          if (element) {
+              return Object.keys(element);
+          }
       },
       sortTable: function(ev, detail, sender) {
         var self = this,
@@ -363,7 +353,7 @@
       },
       tablePager: function (limit) {
         // calc num of panels
-        var calcPages = function(num) { return Math.round(num / limit) },
+        var calcPages = function(num) { return Math.round( num / limit ) },
             count = 0,
             pages = null,
             numPages = 0,
