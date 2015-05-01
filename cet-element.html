@@ -368,7 +368,6 @@
                     bodyData[key] = body[key];
                 }
             }
-            console.log(bodyData);
             document.querySelector('cet-element').trData = bodyData;
         };
         this.setPagerTable = function(newBody, pager, printBody) {
@@ -418,7 +417,7 @@
                         newBody = {},
                         that = this;
                     Object.keys(that).map(function(value, index) {
-                        if (that[value].page === nextPage) {
+                        if (that[value].page === nextPage && that[value].page <= pages) {
                             newBody[value] = that[value];
                         }
                     });
@@ -428,15 +427,15 @@
 
             if (!Object.prototype.findPrevPage) {
                 Object.prototype.findPrevPage = function (nodeClass, self) {
-                    var nextPage = (nodeClass === 1) ? this[nodeClass].page : this[nodeClass].page - 1,
+                    var prevPage = (nodeClass === 1) ? this[nodeClass].page : this[nodeClass].page - 1,
                         newBody = {},
                         that = this;
                     Object.keys(that).map(function(value, index) {
-                        if (that[value].page === nextPage) {
+                        if (that[value].page === prevPage && that[value].page >= 1) {
                             newBody[value] = that[value];
                         }
                     });
-                    self.printNewBody(newBody, nextPage);
+                    self.printNewBody(newBody, prevPage);
                 }
             }
 
