@@ -1,32 +1,32 @@
 {
-  "name": "seed-element",
-  "version": "0.0.0",
-  "authors": [
-    "Anonymous <anonymous@example.com>"
-  ],
-  "description": "Element providing solution to no problem in particular.",
-  "keywords": [
-    "web-component",
-    "web-components",
-    "polymer",
-    "seed"
-  ],
-  "main": "seed-element.html",
-  "license": "MIT",
-  "homepage": "https://github.com/<USERNAME>/seed-element/",
-  "ignore": [
-    "/.*",
-    "/tests/",
-    "node_modules",
-    "bower_components"
-  ],
-  "dependencies": {
-    "polymer": "Polymer/polymer#^0.5.4",
-    "core-toolbar": "Polymer/core-toolbar#^0.5",
-    "core-icon-button": "Polymer/core-icon-button#^0.5",
-    "core-dropdown": "Polymer/core-dropdown#^0.5"
-  },
-  "devDependencies": {
-    "web-component-tester": "*"
-  }
+	"name": "cet-element",
+	"version": "0.0.0",
+	"authors": [
+		"AlbertoFuente"
+	],
+	"description": "",
+	"keywords": [
+		"web-component",
+		"web-components",
+		"polymer",
+		"seed"
+	],
+	"main": "cet-element.html",
+	"license": "MIT",
+	"homepage": "https://github.com/AlbertoFuente/cet-element",
+	"ignore": [
+		"/.*",
+		"/tests/",
+		"node_modules",
+		"bower_components"
+	],
+	"dependencies": {
+		"polymer": "Polymer/polymer#^0.5.4",
+		"core-toolbar": "Polymer/core-toolbar#^0.5",
+		"core-icon-button": "Polymer/core-icon-button#^0.5",
+		"core-dropdown": "Polymer/core-dropdown#^0.5"
+	},
+	"devDependencies": {
+		"web-component-tester": "*"
+	}
 }
