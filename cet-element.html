@@ -417,11 +417,12 @@
                         newBody = {},
                         that = this;
                     Object.keys(that).map(function(value, index) {
-                        if (that[value].page === nextPage && that[value].page <= pages) {
+                        if (that[value].page === nextPage) {
                             newBody[value] = that[value];
                         }
                     });
-                    self.printNewBody(newBody, nextPage);
+                    if (nextPage <= pages)
+                        self.printNewBody(newBody, nextPage);
                 }
             }
 
@@ -431,11 +432,12 @@
                         newBody = {},
                         that = this;
                     Object.keys(that).map(function(value, index) {
-                        if (that[value].page === prevPage && that[value].page >= 1) {
+                        if (that[value].page === prevPage) {
                             newBody[value] = that[value];
                         }
                     });
-                    self.printNewBody(newBody, prevPage);
+                    if (prevPage >= 1)
+                        self.printNewBody(newBody, prevPage);
                 }
             }
 
