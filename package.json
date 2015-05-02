@@ -24,7 +24,7 @@
     "gulp": "^3.8.11",
     "gulp-karma": "0.0.4",
     "gulp-watch": "^4.2.4",
-    "jasmine-core": "^2.2.0",
+    "jasmine-core": "^2.3.0",
     "karma": "^0.12.32",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^0.1.8",
