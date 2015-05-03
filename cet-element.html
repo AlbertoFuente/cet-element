@@ -224,7 +224,8 @@
                 isNum = null,
                 numData = null,
                 self = this,
-                newBody = {};
+                newBody = {},
+                printBody = {};
             // Add isNumeric() function to String class inside his prototype
             if (!String.prototype.isNumeric) {
                 String.prototype.isNumeric = function() {
@@ -264,7 +265,6 @@
             }
             // empty table body
             newBody = Object.call(this, self.cet.tableData[0].body);
-            self.cet.tableData[0].body = {};
             // insert new sort table body (tr's)
             tdsArr.map(function(d) {
                 var key = null,
@@ -272,12 +272,12 @@
                 for (key in newBody) {
                     for (k in newBody[key]) {
                         if (d === newBody[key][k].data) {
-                            self.cet.tableData[0].body[key] = newBody[key];
+                            printBody[key] = newBody[key];
                         }
                     }
                 }
             });
-            self.tableBody(self.cet.tableData);
+            document.querySelector('cet-element').trData = printBody;
         };
 
         if (sender.icon === 'expand-more') {
