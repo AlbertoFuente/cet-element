@@ -23,3 +23,36 @@ core-dropdown {
     top: 38px;
     left: 0;
  }
+ #tableContainer {
+     width: 100%;
+ }
+ #tableContainer table {
+     width: 100%;
+ }
+ #tableContainer table tr {
+     height: 40px;
+ }
+ #tableContainer table tr th {
+     text-align: left;
+     position: relative;
+ }
+ #tableContainer table tr th core-icon-button {
+     position: absolute;
+     left: auto;
+     right: 0;
+     top: 0;
+ }
+ #tableContainer table tr td {
+     text-align: center;
+ }
+ #cetThead {
+     width: 100%;
+     height: 40px;
+     border-bottom: 2px solid #CFD8DC;
+ }
+ .td1 {
+     text-align: left !important;
+ }
+ .sortIcon {
+     float: right;
+ }
