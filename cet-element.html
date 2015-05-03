@@ -454,17 +454,11 @@
             }
 
             if (buttonClass === 'next') {
-                try {
-                    var nnc = lastTrClass();
-                } finally {
-                    cetBody.findNextPage(nnc, this);
-                }
+                var nnc = lastTrClass();
+                cetBody.findNextPage(nnc, this);
             } else {
-                try {
-                    var npc = lastTrClass();
-                } finally {
-                    cetBody.findPrevPage(npc, this);
-                }
+                var npc = lastTrClass();
+                cetBody.findPrevPage(npc, this);
             }
         }
       }
