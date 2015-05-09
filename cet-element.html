@@ -210,8 +210,9 @@
             num = senderClass.slice(-1),
             changeIconClass = function(iconClass) {
                 var i = 0,
-                    icons = self.$.cetThead.querySelectorAll('core-icon-button');
-                for (i; i < icons.length; i++) {
+                    icons = self.$.cetThead.querySelectorAll('core-icon-button'),
+                    iconsLength = icons.length;
+                for (i; i < iconsLength; i++) {
                     icons[i].icon = iconClass;
                 }
             };
@@ -225,14 +226,15 @@
                 numData = null,
                 self = this,
                 newBody = {},
-                printBody = {};
+                printBody = {},
+                tdsLength = tds.length;
             // Add isNumeric() function to String class inside his prototype
             if (!String.prototype.isNumeric) {
                 String.prototype.isNumeric = function() {
                     return !isNaN(parseFloat(this));
                 }
             }
-            for (i; i < tds.length; i++) {
+            for (i; i < tdsLength; i++) {
                 if (tds[i].className.slice(-1) === num) {
                     tdsArr.push(tds[i].innerHTML);
                 }
@@ -241,8 +243,9 @@
             isNum = tdsArr.map(function(col) {
                 return col.isNumeric();
             });
+            let isNumLength = isNum.length;
 
-            for (t; t < isNum.length; t++) {
+            for (t; t < isNumLength; t++) {
                 if (isNum[t]) {
                     numData = isNum[t];
                 } else {
