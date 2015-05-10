@@ -8,20 +8,6 @@
   <template>
 
     <link rel="stylesheet" href="cet-element.css">
-
-    <core-toolbar id="tableHeader">
-    <div flex>{{titleHeader}}</div>
-    <core-icon-button icon="search" id="searchIcon"></core-icon-button>
-    <core-icon-button icon="menu" id="menuOptions"></core-icon-button>
-    <core-dropdown relatedTarget="{{$.menuOptions}}" class="open-below">
-      <core-menu>
-        <core-item>{{graphs}}</core-item>
-        <core-item>{{downloads}}</core-item>
-        <core-item>{{dataSum}}</core-item>
-      </core-menu>
-    </core-dropdown>
-    </core-toolbar>
-
     <div id="tableContainer">
     <table id="cetTable">
         <thead id="cetThead">
@@ -48,41 +34,15 @@
 
   </template>
 
-  <script>
+  <script type="text/javascript">
   (function() {
+    'use strict';
     Polymer('cet-element', {
       author: 'Alberto de la Fuente',
       created: function() {
         this.cet = {
-            // add header title
-            header: true,
-            title: "Table Title",
-            // add options to header
-            options: true,
-            listOptions: {
-                'graphs': true,
-                'downloads': true,
-                'column_data_sum': true
-            },
-            // options texts
-            graphTitle: 'Config graph options',
-            downloadsTitle: 'Config graph options',
-            sumTitle: 'Config sum options',
             // tooltips
             tooltips: true,
-            // download options
-            downloadOptions: {
-                'json': true,
-                'xml': true,
-                'sql': true,
-                'txt': true,
-                'csv': true,
-                'xsl': true,
-                'doc': true,
-                'pdf': true
-            },
-            // search
-            search: true,
             // limit rows and add pager
             limitRows: 3,
             // config type of data service
@@ -94,8 +54,6 @@
             localDataUrl: 'localData/tableData.json',
             // fireBase url
             fireBaseUrl: '',
-            // display table effects
-            effects: true,
             // sort table
             sortable: true
           }
@@ -273,9 +231,13 @@
                 var key = null,
                     k = null;
                 for (key in newBody) {
-                    for (k in newBody[key]) {
-                        if (d === newBody[key][k].data) {
-                            printBody[key] = newBody[key];
+                    if (newBody.hasOwnProperty(key)) {
+                        for (k in newBody[key]) {
+                            if (newBody[key].hasOwnProperty(k)) {
+                                if (d === newBody[key][k].data) {
+                                    printBody[key] = newBody[key];
+                                }
+                            }
                         }
                     }
                 }
@@ -292,36 +254,6 @@
         this.selectedTds();
       },
       tableConstructor: function(cet) {
-        // table header
-        if (cet.header) {
-            // header title
-            if (cet.title !== '') {
-                document.querySelector('cet-element').titleHeader = cet.title;
-            }
-            // header menu options
-            if (cet.options) {
-                // header menu list options
-                if (cet.listOptions) {
-                    if (cet.listOptions.graphs) {
-                        document.querySelector('cet-element').graphs = cet.graphTitle;
-                    }
-                    if (cet.listOptions.downloads) {
-                        document.querySelector('cet-element').downloads = cet.downloadsTitle;
-                    }
-                    if (cet.listOptions.column_data_sum) {
-                        document.querySelector('cet-element').dataSum = cet.sumTitle;
-                    }
-                }
-            } else {
-                this.$.trigger.remove();
-            }
-            // searcher
-            if (!cet.search) {
-                this.$.searchIcon.remove();
-            }
-        } else {
-            this.$.tableHeader.remove();
-        }
         this.tableBody = function(tableData) {
             // Construct the table
             if (tableData !== undefined) {
@@ -331,7 +263,9 @@
                     bodyData = {};
                 // table head data
                 for(i in tableData[0].head) {
-                    headData.push(tableData[0].head[i]);
+                    if (tableData[0].head.hasOwnProperty(i)) {
+                        headData.push(tableData[0].head[i]);
+                    }
                 }
                 document.querySelector('cet-element').thData = headData;
                 // tHead sortable
@@ -346,7 +280,9 @@
 
                     // table body data
                     for (j in tableData[0].body) {
-                        bodyData[j] = tableData[0].body[j];
+                        if (tableData[0].body.hasOwnProperty(j)) {
+                            bodyData[j] = tableData[0].body[j];
+                        }
                     }
                     document.querySelector('cet-element').trData = bodyData;
                 }
@@ -391,16 +327,19 @@
                 return this % limit;
             };
         }
+        var key = null;
         // set pages
         for (key in this.cet.tableData[0].body) {
-            numPages++;
-            var num = key.slice(-1),
-                numPair = parseFloat(num).isPair(limit);
-            if (numPair === 1) count++;
-            newBodyClasses[key] = {
-                page : count,
-                trClass : key
-            };
+            if ( this.cet.tableData[0].body.hasOwnProperty(key)) {
+                numPages++;
+                var num = key.slice(-1),
+                    numPair = parseFloat(num).isPair(limit);
+                if (numPair === 1) count++;
+                newBodyClasses[key] = {
+                    page : count,
+                    trClass : key
+                };
+            }
         }
         // number of pages
         pages = calcPages(numPages);
@@ -449,8 +388,10 @@
                     key = null,
                     nodeClass = null;
                 for (key in bodyNodes) {
-                    if (bodyNodes[key].tagName === 'TR') {
-                        nodeClass = bodyNodes[key].className;
+                    if (bodyNodes.hasOwnProperty(key)) {
+                        if (bodyNodes[key].tagName === 'TR') {
+                            nodeClass = bodyNodes[key].className;
+                        }
                     }
                 }
                 return nodeClass;
