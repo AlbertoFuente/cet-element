@@ -69,13 +69,13 @@
                 if (cet.localDataUrl !== '') {
                     this.setServices('localData');
                 } else {
-                    alert('You must add localDataUrl in config.js');
+                    console.log('You must add localDataUrl in your config');
                 }
             } else if (cet.dataOptions.fireBase) {
                 if (cet.fireBaseUrl !== '') {
                     this.setServices('fireBase');
                 } else {
-                    alert('You must add fireBaseUrl in config.js');
+                    console.log('You must add fireBaseUrl in your config');
                 }
             }
         }
