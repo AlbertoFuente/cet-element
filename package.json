@@ -24,17 +24,17 @@
     "gulp": "^3.8.11",
     "gulp-karma": "0.0.4",
     "gulp-watch": "^4.2.4",
-    "jasmine-core": "^2.3.2",
+    "jasmine-core": "^2.3.4",
     "karma": "^0.12.32",
     "karma-chai": "^0.1.0",
-    "karma-chrome-launcher": "^0.1.9",
+    "karma-chrome-launcher": "^0.1.12",
     "karma-detect-browsers": "^2.0.0",
-    "karma-firefox-launcher": "^0.1.5",
+    "karma-firefox-launcher": "^0.1.6",
     "karma-mocha": "^0.1.10",
     "karma-opera-launcher": "^0.1.0",
     "karma-phantomjs-launcher": "^0.1.4",
     "karma-polymer-test": "^0.2.6",
     "karma-safari-launcher": "^0.1.1",
-    "mocha": "^2.2.4"
+    "mocha": "^2.2.5"
   }
 }
