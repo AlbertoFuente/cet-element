@@ -21,11 +21,11 @@
   "homepage": "https://github.com/AlbertoFuente/cet-element",
   "dependencies": {
     "chai": "^2.3.0",
-    "gulp": "^3.8.11",
+    "gulp": "^3.9.0",
     "gulp-karma": "0.0.4",
     "gulp-watch": "^4.2.4",
     "jasmine-core": "^2.3.4",
-    "karma": "^0.12.33",
+    "karma": "^0.12.36",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^0.1.12",
     "karma-detect-browsers": "^2.0.0",
